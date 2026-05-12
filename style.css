@@ -230,3 +230,7 @@ svg {
     font-size: 0.85rem;
     color: var(--text);
 }
+
+.states path {
+    transition: fill 0.2s ease, stroke-width 0.2s ease;
+}
