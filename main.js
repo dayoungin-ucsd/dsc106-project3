@@ -146,7 +146,7 @@ d3.selectAll(".controls button")
     svg.selectAll("path")
       .transition()
       .duration(400)
-      .attr("fill", d => getColor(d.properties.name));
+      .attr("fill", d => getColor(d.properties.name))
       .attr("stroke-width", d =>
         d.properties.name == selectedState ? 3 : 1
       );
