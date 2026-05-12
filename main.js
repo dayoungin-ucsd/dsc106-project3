@@ -43,13 +43,30 @@ const thermalData = {
 
 let currentLayer = "risk";
 let selectedState = null;
+let tempWeight = 40;
+let vegWeight = 30;
+let thermalWeight = 30;
+
+function getRiskScore(stateName) {
+    const temp = temperatureData[stateName] ?? 50;
+    const veg = vegetationData[stateName] ?? 50;
+    const thermal = thermalData[stateName] ?? 50;
+
+    const vegetationStress = 100 - veg;
+
+    return Math.round(
+        (temp * tempWeight +
+        vegetationStress * vegWeight +
+        thermal * thermalWeight) / 100
+    );
+}
 
 function getColor(stateName) {
 
     let value;
 
     if (currentLayer === "risk") {
-        value = riskScores[stateName] ?? 50;
+        value = getRiskScore(stateName);
     }
     else if (currentLayer === "temperature") {
         value = temperatureData[stateName] ?? 50;
@@ -89,7 +106,7 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
     .attr("fill", d => getColor(d.properties.name))
     .attr("stroke", "#fff")
     .on("mouseover", function (event, d) {
-      const risk = riskScores[d.properties.name] ?? 50;
+      const risk = getRiskScore(d.properties.name);
       const temp = temperatureData[d.properties.name] ?? 50;
       const veg = vegetationData[d.properties.name] ?? 50;
       const thermal = thermalData[d.properties.name] ?? 50;
@@ -110,7 +127,7 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
     .on("click", function(event, d) {
       selectedState = d.properties.name;
 
-      const risk = riskScores[selectedState] ?? 50;
+      const risk = getRiskScore(d.properties.name);
       const temp = temperatureData[selectedState] ?? 50;
       const veg = vegetationData[selectedState] ?? 50;
       const thermal = thermalData[selectedState] ?? 50;
@@ -171,3 +188,35 @@ riskList.selectAll("li")
   .enter()
   .append("li")
   .text(d => `${d[0]} — Risk Score: ${d[1]}`);
+
+d3.select("#temp-weight").on("input", function () {
+    tempWeight = Number(this.value);
+    thermalWeight = 100 - tempWeight - vegWeight;
+
+    if (thermalWeight < 0) {
+        thermalWeight = 0;
+    }
+
+    d3.select("#temp-weight-value").text(`${tempWeight}%`);
+
+    svg.selectAll("path")
+      .transition()
+      .duration(300)
+      .attr("fill", d => getColor(d.properties.name));
+});
+
+d3.select("#veg-weight").on("input", function () {
+    vegWeight = Number(this.value);
+    thermalWeight = 100 - tempWeight - vegWeight;
+
+    if (thermalWeight < 0) {
+        thermalWeight = 0;
+    }
+
+    d3.select("#veg-weight-value").text(`${vegWeight}%`);
+
+    svg.selectAll("path")
+      .transition()
+      .duration(300)
+      .attr("fill", d => getColor(d.properties.name));
+});
