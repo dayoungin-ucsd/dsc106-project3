@@ -238,3 +238,21 @@ svg {
 .states path {
     transition: fill 0.2s ease, stroke-width 0.2s ease, stroke 0.2s ease;
 }
+
+.panel-card input[type="range"] {
+    width: 100%;
+    margin: 8px 0 14px;
+    accent-color: var(--accent);
+}
+
+.panel-card label {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.panel-card label span {
+    color: var(--accent);
+    font-weight: 500;
+}
