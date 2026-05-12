@@ -15,13 +15,13 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
     .attr("class", "states")
     .selectAll("path")
     .data(feature(us, us.objects.states).features)
-    .enter().append("path")
+    .enter()
+    .append("path")
     .attr("d", path)
     .attr("fill", "#ccc")
     .attr("stroke", "#fff")
-    .on("mouseover", function () {
-        d3.select(this)
-          .attr("fill", "#128127");
+    .on("mouseover", function (event, d) {
+        d3.select(this).attr("fill", "#128127");
 
         tooltip.style("display", "block")
                .style("left", `${event.pageX + 10}px`)
@@ -32,8 +32,7 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
                 `);
     })
     .on("mouseout", function() {
-        d3.select(this)
-          .attr("fill", "#ccc");
+        d3.select(this).attr("fill", "#ccc");
 
         tooltip.style("display", "none");
     });
