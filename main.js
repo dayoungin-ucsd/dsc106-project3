@@ -122,6 +122,12 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
           Vegetation: ${veg}<br>
           Thermal Anomalies: ${thermal}
       `);
+
+      svg.selectAll("path")
+        .attr("stroke-width", d =>
+          d.properties.name === selectedState ? 3 : 1)
+        .attr("stroke", d =>
+          d.properties.name === selectedState ? "#ffffff" : "#fff");
     })
     .on("mouseout", function(event, d) {
       d3.select(this).attr("fill", getColor(d.properties.name));
@@ -134,10 +140,9 @@ const tooltip = d3.select("#tooltip");
 
 d3.selectAll(".controls button")
   .on("click", function () {
-
     d3.selectAll(".controls button")
       .classed("active", false);
-
+    
     d3.select(this)
       .classed("active", true);
 
@@ -149,7 +154,7 @@ d3.selectAll(".controls button")
       .attr("fill", d => getColor(d.properties.name))
       .attr("stroke-width", d =>
         d.properties.name === selectedState ? 3 : 1
-      );
+      )
       .attr("stroke", d =>
         d.properties.name === selectedState ? "#ffffff" : "#fff"
       );
