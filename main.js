@@ -87,7 +87,11 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
     .attr("fill", d => getColor(d.properties.name))
     .attr("stroke", "#fff")
     .on("mouseover", function (event, d) {
-      const score = riskScores[d.properties.name] ?? 50;
+      const risk = riskScores[d.properties.name] ?? 50;
+      const temp = temperatureData[d.properties.name] ?? 50;
+      const veg = vegetationData[d.properties.name] ?? 50;
+      const thermal = thermalData[d.properties.name] ?? 50;
+      
       d3.select(this).attr("fill", "#128127");
 
       tooltip.style("display", "block")
@@ -95,15 +99,13 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
              .style("top", `${event.pageY + 10}px`)
              .html(`
                <strong>${d.properties.name}</strong><br>
-               Risk Score: ${score}<br>
-               Temperature: High<br>
-               Vegetation: Low<br>
-               Thermal Anomalies: Elevated
+               Risk Score: ${risk}<br>
+               Temperature: ${temp}<br>
+               Vegetation: ${veg}<br>
+               Thermal Anomalies: ${thermal}
              `);
     })
     .on("mouseout", function(event, d) {
-      const score = riskScores[d.properties.name] ?? 50;
-      
       d3.select(this).attr("fill", getColor(d.properties.name));
 
       tooltip.style("display", "none");
