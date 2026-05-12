@@ -179,41 +179,6 @@ svg {
     border-color: var(--accent);
 }
 
-.legend {
-    display: flex;
-    gap: 8px;
-    flex-direction: column;
-    font-size: 14px;
-}
-
-.legend div {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.box {
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-}
-
-.low {
-    background: #6a994e;
-}
-
-.medium {
-    background: #fcbf49;
-}
-
-.high {
-    background: #f77f00;
-}
-
-.extreme {
-    background: #c1121f;
-}
-
 #spotlight-text {
     margin-bottom: 0;
 }
@@ -244,4 +209,24 @@ svg {
 
 .panel-card input[type="range"] {
     width: 100%;
+}
+
+.risk-gradient {
+    height: 18px;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        #6a994e 0%,
+        #fcbf49 40%,
+        #f77f00 70%,
+        #c1121f 100%
+    );
+    margin: 10px 0 8px;
+}
+
+.risk-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text);
 }
