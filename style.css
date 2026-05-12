@@ -104,3 +104,38 @@ main p {
     line-height: 1.5;
     pointer-events: none;
 }
+
+.legend {
+    display: flex;
+    gap: 18px;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.low {
+    background: #6a994e;
+}
+
+.medium {
+    background: #fcbf49;
+}
+
+.high {
+    background: #f77f00;
+}
+
+.extreme {
+    background: #c1121f;
+}
