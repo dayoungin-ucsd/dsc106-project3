@@ -279,23 +279,3 @@ svg {
     margin-bottom: 20px;
     align-items: stretch;
 }
-
-.nasa-panel {
-    margin-top: 16px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px;
-    background: #11161d;
-}
-
-.nasa-panel h3 {
-    margin-top: 0;
-    color: var(--heading);
-    font-family: 'Bebas Neue', sans-serif;
-}
-
-.nasa-panel img {
-    width: 100%;
-    border-radius: 8px;
-    display: block;
-}
