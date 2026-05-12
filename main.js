@@ -46,6 +46,7 @@ let selectedState = null;
 let tempWeight = 40;
 let vegWeight = 30;
 let thermalWeight = 30;
+let riskThreshold = 60;
 
 function getRiskScore(stateName) {
     const temp = temperatureData[stateName] ?? 50;
@@ -180,10 +181,14 @@ d3.selectAll(".controls button")
 const riskList = d3.select("#risk-list");
 
 function updateRiskList() {
-  const allStates = [
-    "California", "Texas", "Arizona", "Nevada", "Florida",
-    "Washington", "Oregon", "Utah", "Colorado", "New Mexico"
-  ];
+  const topStates = allStates
+    .map(state => ({
+      name: state,
+      risk: getRiskScore(state)
+    }))
+    .filter(d => d.risk >= riskThreshold)
+    .sort((a, b) => b.risk - a.risk)
+    .slice(0, 5);
 
   const topStates = allStates
     .map(state => ({
@@ -202,37 +207,44 @@ function updateRiskList() {
 updateRiskList();
 
 d3.select("#temp-weight").on("input", function () {
-    tempWeight = Number(this.value);
-    thermalWeight = 100 - tempWeight - vegWeight;
+  tempWeight = Number(this.value);
+  thermalWeight = 100 - tempWeight - vegWeight;
 
-    if (thermalWeight < 0) {
-        thermalWeight = 0;
-    }
+  if (thermalWeight < 0) {
+    thermalWeight = 0;
+  }
 
-    d3.select("#temp-weight-value").text(`${tempWeight}%`);
+  d3.select("#temp-weight-value").text(`${tempWeight}%`);
 
-    svg.selectAll("path")
-      .transition()
-      .duration(300)
-      .attr("fill", d => getColor(d.properties.name));
+  svg.selectAll("path")
+    .transition()
+    .duration(300)
+    .attr("fill", d => getColor(d.properties.name));
 
-    updateRiskList();
+  updateRiskList();
 });
 
 d3.select("#veg-weight").on("input", function () {
-    vegWeight = Number(this.value);
-    thermalWeight = 100 - tempWeight - vegWeight;
+  vegWeight = Number(this.value);
+  thermalWeight = 100 - tempWeight - vegWeight;
 
-    if (thermalWeight < 0) {
-        thermalWeight = 0;
-    }
+  if (thermalWeight < 0) {
+    thermalWeight = 0;
+  }
 
-    d3.select("#veg-weight-value").text(`${vegWeight}%`);
+  d3.select("#veg-weight-value").text(`${vegWeight}%`);
 
-    svg.selectAll("path")
-      .transition()
-      .duration(300)
-      .attr("fill", d => getColor(d.properties.name));
+  svg.selectAll("path")
+    .transition()
+    .duration(300)
+    .attr("fill", d => getColor(d.properties.name));
 
-    updateRiskList();
+  updateRiskList();
+});
+
+d3.select("#risk-threshold").on("input", function () {
+  riskThreshold = Number(this.value);
+  d3.select("#risk-threshold-value").text(riskThreshold);
+
+  updateRiskList();
 });
