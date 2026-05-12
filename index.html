@@ -29,7 +29,8 @@
     </header>
     
     <div id="controls">
-        <select onchange = "setYear(this.value)">
+        <label for="year-select">Select Year</label>
+        <select id="year-select" onchange="setYear(this.value)">
             <option value="2020">2020</option>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
@@ -42,11 +43,11 @@
         <section class="question">
             <h2>Research Question</h2>
             <p>
-                How do extreme land surface temperatures and vegetation levels combine to create high-risk zones for thermal anomalies?
+                How have thermal anomaly detections changed across U.S. states from 2020 to 2024?
             </p>
             <p class="vis-description">
-                Explore how temperature, vegetation stress, and thermal anomalies interact across the United States. 
-                Adjust the weights and thresholds to identify regions at greater environmental risk.
+                Use the year selector to compare thermal anomaly detections across U.S. states from 2020 to 2024. 
+                Darker colors indicate higher detection counts.
             </p>
         </section>
 
