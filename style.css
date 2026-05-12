@@ -139,3 +139,8 @@ main p {
 .extreme {
     background: #c1121f;
 }
+
+.svg {
+    width: 100%;
+    height: auto;
+}
