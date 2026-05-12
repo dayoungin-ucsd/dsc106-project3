@@ -148,6 +148,9 @@ d3.selectAll(".controls button")
       .duration(400)
       .attr("fill", d => getColor(d.properties.name))
       .attr("stroke-width", d =>
-        d.properties.name == selectedState ? 3 : 1
+        d.properties.name === selectedState ? 3 : 1
+      );
+      .attr("stroke", d =>
+        d.properties.name === selectedState ? "#ffffff" : "#fff"
       );
 });
