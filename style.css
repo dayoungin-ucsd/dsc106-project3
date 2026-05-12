@@ -232,3 +232,15 @@ svg {
         grid-template-columns: 1fr;
     }
 }
+
+.panel-card label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.panel-card input[type="range"] {
+    width: 100%;
+}
