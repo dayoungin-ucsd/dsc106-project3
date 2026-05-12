@@ -179,15 +179,27 @@ d3.selectAll(".controls button")
 
 const riskList = d3.select("#risk-list");
 
-const topStates = Object.entries(riskScores)
-  .sort((a, b) => b[1] - a[1])
-  .slice(0, 5);
+function updateRiskList() {
+  const allStates = [
+    "California", "Texas", "Arizona", "Nevada", "Florida",
+    "Washington", "Oregon", "Utah", "Colorado", "New Mexico"
+  ];
 
-riskList.selectAll("li")
-  .data(topStates)
-  .enter()
-  .append("li")
-  .text(d => `${d[0]} — Risk Score: ${d[1]}`);
+  const topStates = allStates
+    .map(state => ({
+      name: state,
+      risk: getRiskScore(state)
+    }))
+    .sort((a, b) => b.risk - a.risk)
+    .slice(0, 5);
+
+  riskList.selectAll("li")
+    .data(topStates)
+    .join("li")
+    .text(d => `${d.name} — Risk Score: ${d.risk}`);
+}
+
+updateRiskList();
 
 d3.select("#temp-weight").on("input", function () {
     tempWeight = Number(this.value);
@@ -203,6 +215,8 @@ d3.select("#temp-weight").on("input", function () {
       .transition()
       .duration(300)
       .attr("fill", d => getColor(d.properties.name));
+
+    updateRiskList();
 });
 
 d3.select("#veg-weight").on("input", function () {
@@ -219,4 +233,6 @@ d3.select("#veg-weight").on("input", function () {
       .transition()
       .duration(300)
       .attr("fill", d => getColor(d.properties.name));
+
+    updateRiskList();
 });
