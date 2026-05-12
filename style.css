@@ -234,3 +234,7 @@ svg {
 .states path {
     transition: fill 0.2s ease, stroke-width 0.2s ease;
 }
+
+.states path {
+    transition: fill 0.2s ease, stroke-width 0.2s ease, stroke 0.2s ease;
+}
