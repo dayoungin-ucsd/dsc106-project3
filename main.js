@@ -87,28 +87,98 @@ const zoomBehavior = d3.zoom()
 
 svg.call(zoomBehavior);
 
+let stateFeatures = [];
 
-function setYear(year) {
-  d3.csv(`fire_data${year}.csv`).then(data => {
-    const filtered = data.filter(d =>
-      +d.type === 0 &&
-      +d.confidence >= 80 &&
-      +d.frp > 100
-    );
+d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
+  stateFeatures = topojson.feature(us, us.objects.states).features;
 
-    // clear old points first
-    pointGroup.selectAll(".fire-point").remove();
+  borderGroup.selectAll(".state")
+    .data(stateFeatures)
+    .join("path")
+    .attr("class", "state")
+    .attr("id", d => `state-${d.id}`)
+    .attr("d", d3.geoPath(proj))
+    .attr("fill", "transparent")
+    .attr("stroke", "rgba(255,255,255,0.45)")
+    .attr("stroke-width", 0.6);
+});
 
-    pointGroup.selectAll(".fire-point")
-      .data(filtered)
-      .join("circle")
-      .attr("class", "fire-point")
-      .attr("cx", d => { const pt = proj([+d.longitude, +d.latitude]); return pt ? pt[0] : null; })
-      .attr("cy", d => { const pt = proj([+d.longitude, +d.latitude]); return pt ? pt[1] : null; })
-      .attr("r", 2.5)
-      .attr("fill", "rgba(255, 80, 0, 0.8)")
-      .attr("stroke", "none")
-      .attr("display", d => proj([+d.longitude, +d.latitude]) ? null : "none");
+  
+  function setYear(year) {
+    d3.json(`counts-${year}.json`).then(counts => {
+    applyColors(counts);  
+  });
+}
+
+
+
+function applyColors(counts){
+  // color scale based on count
+      const maxCount = d3.max(Object.values(counts));
+      const colorScale = d3.scaleThreshold()
+        .domain([10, 50, 200, 500, 2000])
+        .range([
+    "#feedde",   // 0–10       very low
+    "#fdbe85",   // 10–50      low
+    "#fd8d3c",   // 50–200     moderate
+    "#e6550d",   // 200–500    high
+    "#bd0026",   // 500–2000   very high
+    "#7f0000",   // 2000+      extreme (CA, TX outliers)
+      ]);
+
+      // fill each state
+      borderGroup.selectAll(".state")
+        .attr("fill", d => colorScale(counts[d.id] || 0));
+
+      renderLegend(maxCount);
+}
+
+function renderLegend(maxCount) {
+  d3.select("#legend").remove();
+
+  const bins = [
+  { label: "0–10",     color: "#feedde" },
+  { label: "10–50",    color: "#fdbe85" },
+  { label: "50–200",   color: "#fd8d3c" },
+  { label: "200–500",  color: "#e6550d" },
+  { label: "500–2000", color: "#bd0026" },
+  { label: "2000+",    color: "#7f0000" },
+  ];
+
+  const legend = svg.append("g")
+    .attr("id", "legend")
+    .attr("transform", `translate(${W - 240}, ${H - 150})`);
+
+  // background
+  legend.append("rect")
+    .attr("x", -10).attr("y", -24)
+    .attr("width", 200).attr("height", bins.length * 18 + 30)
+    .attr("fill", "rgba(0,0,0,0.55)")
+    .attr("rx", 6);
+
+  // title
+  legend.append("text")
+    .attr("x", 90).attr("y", -8)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 12).attr("font-weight", "600")
+    .attr("fill", "#eee")
+    .text("Thermal Anomaly Detections");
+
+  // one row per bin
+  bins.forEach((bin, i) => {
+    const y = i * 18;
+
+    legend.append("rect")
+      .attr("x", 0).attr("y", y)
+      .attr("width", 14).attr("height", 14)
+      .attr("fill", bin.color)
+      .attr("rx", 2);
+
+    legend.append("text")
+      .attr("x", 20).attr("y", y + 11)
+      .attr("font-size", 11)
+      .attr("fill", "#ccc")
+      .text(bin.label);
   });
 }
 
