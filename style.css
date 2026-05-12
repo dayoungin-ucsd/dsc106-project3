@@ -7,8 +7,6 @@
     --heading: #f0ece4;
 }
 
-/* body { background: #0d1117; margin: 0; } */
-
 body {
     background-color: var(--bg);
     color: var(--text);
@@ -16,6 +14,7 @@ body {
     font-size: 16px;
     line-height: 1;
     min-height: 100vh;
+    margin: 0;
 }
 
 /* Headings */
@@ -310,4 +309,11 @@ svg { display: block; width: 100%; }
 
 #mapSVG:active {
   cursor: grabbing;
+}
+
+.vis-description {
+    max-width: 900px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 24px;
 }
