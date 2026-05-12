@@ -3,28 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel = 'stylesheet' href = 'style.css'>
-    
-    
-    
+    <title>Project 3 Visualization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
-    <div id="controls">
-        <select onchange = "setYear(this.value)">
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-        </select>
-    </div>
+    <header>
+        <h1>
+            <small>Project 3</small>
+            Degrees of Change: How Much Can Our Planet Handle?
+        </h1>
 
+        <div class="authors">
+            <p><strong>Dayoung In</strong> — <em>dain@ucsd.edu</em></p>
+            <p><strong>Johny Nguyen</strong> — <em>jon009@ucsd.edu</em></p>
+            <p><strong>Salina Tang</strong> — <em>sat018@ucsd.edu</em></p>
+            <p><strong>Eric Zhao</strong> — <em>e3zhao@ucsd.edu</em></p>
+        </div>
+    </header>
 
+    <main>
+        <section class="question">
+            <h2>Research Question</h2>
+            <p>
+                How have thermal anomaly detections changed across U.S. states from 2020 to 2024?
+            </p>
+            <p class="vis-description">
+                This project explores geographic patterns of thermal anomalies across the United States and highlights regions with consistently high detection activity over time.
+            </p>
+        </section>
 
-    <svg id="mapSVG"></svg>
+        <section class="visualization">
+            <h2>Interactive Visualization</h2>
+            <p class="vis-description">
+                Use the year selector to compare thermal anomaly detections across different years. Darker colors represent higher detection counts.
+            </p>
+            
+            <div id="controls">
+                <label for="year-select">Select Year</label>
+                <select id="year-select" onchange="setYear(this.value)">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+            <svg id="mapSVG"></svg>
+        </section>
+        
+        <section>
+            <h2>Write-Up</h2>
+            <p>reflection...</p>
+        </section>
+    </main>
 
     <div id = 'tooltip'></div>
 
