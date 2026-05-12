@@ -16,7 +16,8 @@ const tileGroup   = mapGroup.append("g").attr("id", "tiles");
 const borderGroup = mapGroup.append("g").attr("id", "borders");
 const pointGroup  = mapGroup.append("g").attr("id", "points");
 
-
+let baseline2020 = null;
+let currentCounts = null;
 
 const proj = d3.geoAlbersUsa()
   .scale(1200)
@@ -106,7 +107,18 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
   
   function setYear(year) {
     d3.json(`counts-${year}.json`).then(counts => {
-    applyColors(counts);  
+      currentCounts = counts;
+    // save 2020 as baseline the first time
+    if (!baseline2020) {
+      d3.json("counts-2020.json").then(base => {
+        baseline2020 = base;
+        applyColors(counts);
+        addStateInteraction(counts);
+      });
+    } else {
+      applyColors(counts);
+      addStateInteraction(counts);
+    }  
   });
 }
 
@@ -118,7 +130,7 @@ function applyColors(counts){
       const colorScale = d3.scaleThreshold()
         .domain([10, 50, 200, 500, 2000])
         .range([
-    "#feedde",   // 0–10       very low
+    "#f7bb87",   // 0–10       very low
     "#fdbe85",   // 10–50      low
     "#fd8d3c",   // 50–200     moderate
     "#e6550d",   // 200–500    high
@@ -137,7 +149,7 @@ function renderLegend(maxCount) {
   d3.select("#legend").remove();
 
   const bins = [
-  { label: "0–10",     color: "#feedde" },
+  { label: "0–10",     color: "#f7bb87" },
   { label: "10–50",    color: "#fdbe85" },
   { label: "50–200",   color: "#fd8d3c" },
   { label: "200–500",  color: "#e6550d" },
@@ -182,5 +194,110 @@ function renderLegend(maxCount) {
   });
 }
 
+function getPercentChange(counts2020, countsCurrentYear) {
+  const changes = {};
+  Object.keys(counts2020).forEach(id => {
+    const baseline = counts2020[id] || 1;
+    const current  = countsCurrentYear[id] || 0;
+    changes[id] = ((current - baseline) / baseline) * 100;
+  });
+  return changes;
+}
+
+
+//TOOLTIP SECTION
+
+
+const STATE_NAMES = {
+  "01":"Alabama","02":"Alaska","04":"Arizona","05":"Arkansas","06":"California",
+  "08":"Colorado","09":"Connecticut","10":"Delaware","11":"District of Columbia",
+  "12":"Florida","13":"Georgia","15":"Hawaii","16":"Idaho","17":"Illinois",
+  "18":"Indiana","19":"Iowa","20":"Kansas","21":"Kentucky","22":"Louisiana",
+  "23":"Maine","24":"Maryland","25":"Massachusetts","26":"Michigan","27":"Minnesota",
+  "28":"Mississippi","29":"Missouri","30":"Montana","31":"Nebraska","32":"Nevada",
+  "33":"New Hampshire","34":"New Jersey","35":"New Mexico","36":"New York",
+  "37":"North Carolina","38":"North Dakota","39":"Ohio","40":"Oklahoma","41":"Oregon",
+  "42":"Pennsylvania","44":"Rhode Island","45":"South Carolina","46":"South Dakota",
+  "47":"Tennessee","48":"Texas","49":"Utah","50":"Vermont","51":"Virginia",
+  "53":"Washington","54":"West Virginia","55":"Wisconsin","56":"Wyoming"
+};
+
+function addStateInteraction(counts) {
+  const tooltip = document.getElementById("tooltip");
+  borderGroup.selectAll(".state")
+  .on("mouseenter", function() {
+    if (!d3.select(this).classed("selected")) {
+      d3.select(this)
+        .attr("stroke", "rgba(255,255,255,0.9)")
+        .attr("stroke-width", 1.2);
+    }
+  })
+  .on("mouseleave", function() {
+    if (!d3.select(this).classed("selected")) {
+      d3.select(this)
+        .attr("stroke", "rgba(255,255,255,0.45)")
+        .attr("stroke-width", 0.6);
+    }
+  })
+  .on("click", function(event, d) {
+    // reset all states
+    borderGroup.selectAll(".state")
+      .classed("selected", false)
+      .attr("stroke", "rgba(255,255,255,0.45)")
+      .attr("stroke-width", 0.6);
+
+    // mark this one selected
+    d3.select(this)
+      .classed("selected", true)
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 2);
+  });
+  
+  borderGroup.selectAll(".state")
+  .on("click", function(event, d) {
+    const fips  = String(d.id).padStart(2, "0");
+    const name  = STATE_NAMES[fips] || "Unknown";
+    const count = counts[d.id] || 0;
+    const base  = baseline2020 ? (baseline2020[d.id] || 0) : null;
+
+    let changeHtml = "";
+    if (baseline2020) {
+      if (base === 0 && count === 0) {
+        changeHtml = `<div style="color:#888;">No detections in 2020 or current year</div>`;
+      } else if (base === 0) {
+        changeHtml = `<div style="color:#ff6b6b;">New activity (no 2020 baseline)</div>`;
+      } else {
+        const pct   = ((count - base) / base * 100).toFixed(1);
+        const color = pct > 0 ? "#ff6b6b" : "#69db7c";
+        const arrow = pct > 0 ? "▲" : "▼";
+        changeHtml  = `<div style="color:${color};">${arrow} ${Math.abs(pct)}% vs 2020</div>`;
+      }
+    }
+
+    // highlight selected state
+    borderGroup.selectAll(".state").attr("stroke", "rgba(255,255,255,0.45)").attr("stroke-width", 0.6);
+    d3.select(this).attr("stroke", "#fff").attr("stroke-width", 2);
+
+    tooltip.style.display = "block";
+    tooltip.style.left    = (event.clientX + 14) + "px";
+    tooltip.style.top     = (event.clientY - 10) + "px";
+    tooltip.innerHTML     = `
+      <strong style="font-size:13px;">${name}</strong>
+      <div style="color:#aaa; margin: 3px 0;">Detections: <strong style="color:#eee;">${count.toLocaleString()}</strong></div>
+      <div style="color:#aaa;">2020 baseline: <strong style="color:#eee;">${base !== null ? base.toLocaleString() : "—"}</strong></div>
+      ${changeHtml}
+      <div style="font-size:10px; color:#666; margin-top:6px;">Click elsewhere to dismiss</div>
+    `;
+  });
+
+// click anywhere else on the SVG to dismiss
+svg.on("click", function(event) {
+  if (event.target.classList.contains("state")) return;
+  tooltip.style.display = "none";
+  borderGroup.selectAll(".state")
+    .attr("stroke", "rgba(255,255,255,0.45)")
+    .attr("stroke-width", 0.6);
+});
+}
 // load default year on startup
 setYear(2020);
