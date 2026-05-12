@@ -128,7 +128,19 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
              `);
     })
     .on("click", function(event, d) {
-      selectedState = d.properties.name;
+      const clickedState = d.properties.name;
+      if (selectedState === clickedState) {
+        selectedState = null;
+        spotlightText.html("Click a state to keep its details here.");
+        
+        svg.selectAll("path")
+          .attr("stroke-width", 1)
+          .attr("stroke", "#fff")
+          .attr("opacity", 1);
+        return;
+      }
+
+  selectedState = clickedState;
 
       const risk = getRiskScore(selectedState);
       const temp = temperatureData[selectedState] ?? 50;
