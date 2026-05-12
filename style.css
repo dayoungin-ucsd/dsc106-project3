@@ -201,3 +201,21 @@ svg {
     color: var(--accent);
     font-weight: 500;
 }
+
+.high-risk-list {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #11161d;
+}
+
+.high-risk-list h3 {
+    margin-top: 0;
+    color: var(--heading);
+}
+
+#risk-list li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+}
