@@ -91,3 +91,8 @@ main p {
     color: var(--text);
     line-height: 1.7;
 }
+
+#tooltip {
+    position: absolute;
+    display: none;
+}
