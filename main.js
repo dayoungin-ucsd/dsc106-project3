@@ -159,3 +159,15 @@ d3.selectAll(".controls button")
         d.properties.name === selectedState ? "#ffffff" : "#fff"
       );
 });
+
+const riskList = d3.select("#risk-list");
+
+const topStates = Object.entries(riskScores)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 5);
+
+riskList.selectAll("li")
+  .data(topStates)
+  .enter()
+  .append("li")
+  .text(d => `${d[0]} — Risk Score: ${d[1]}`);
