@@ -75,7 +75,7 @@ header h1 {
 
 /* Main */
 main {
-    max-width: 860px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px 32px;
 }
@@ -235,10 +235,6 @@ svg {
 }
 
 .states path {
-    transition: fill 0.2s ease, stroke-width 0.2s ease;
-}
-
-.states path {
     transition: fill 0.2s ease, stroke-width 0.2s ease, stroke 0.2s ease;
 }
 
@@ -264,14 +260,6 @@ svg {
     margin-top: 32px;
 }
 
-.map-panel {
-    min-height: 520px;
-}
-
-#vis {
-    min-height: 520px;
-}
-
 .side-panel {
     max-height: 650px;
     overflow-y: auto;
@@ -289,5 +277,5 @@ svg {
     grid-template-columns: 2fr 1fr;
     gap: 20px;
     margin-bottom: 20px;
-    align-items: start;
+    align-items: stretch;
 }
