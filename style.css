@@ -256,3 +256,20 @@ svg {
     color: var(--accent);
     font-weight: 500;
 }
+
+.visualization {
+    margin-top: 32px;
+}
+
+.map-panel {
+    min-height: 520px;
+}
+
+#vis {
+    min-height: 520px;
+}
+
+.side-panel {
+    max-height: 650px;
+    overflow-y: auto;
+}
