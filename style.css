@@ -70,7 +70,6 @@ header h1 {
 }
 
 .authors em {
-    font-style: normal;
     color: var(--muted);
 }
 
