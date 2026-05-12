@@ -233,7 +233,11 @@ d3.select("#temp-weight").on("input", function () {
   svg.selectAll("path")
     .transition()
     .duration(300)
-    .attr("fill", d => getColor(d.properties.name));
+    .attr("fill", d => getColor(d.properties.name))
+    .attr("stroke-width", d =>
+      d.properties.name === selectedState ? 3 : 1)
+    .attr("stroke", d =>
+      d.properties.name === selectedState ? "#ffffff" : "#fff");
 
   updateRiskList();
   updateSpotlight();
@@ -252,7 +256,11 @@ d3.select("#veg-weight").on("input", function () {
   svg.selectAll("path")
     .transition()
     .duration(300)
-    .attr("fill", d => getColor(d.properties.name));
+    .attr("fill", d => getColor(d.properties.name))
+    .attr("stroke-width", d =>
+      d.properties.name === selectedState ? 3 : 1)
+    .attr("stroke", d =>
+      d.properties.name === selectedState ? "#ffffff" : "#fff");
 
   updateRiskList();
   updateSpotlight();
