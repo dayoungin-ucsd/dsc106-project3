@@ -128,7 +128,7 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
     .on("click", function(event, d) {
       selectedState = d.properties.name;
 
-      const risk = getRiskScore(d.properties.name);
+      const risk = getRiskScore(selectedState);
       const temp = temperatureData[selectedState] ?? 50;
       const veg = vegetationData[selectedState] ?? 50;
       const thermal = thermalData[selectedState] ?? 50;
@@ -179,6 +179,10 @@ d3.selectAll(".controls button")
 });
 
 const riskList = d3.select("#risk-list");
+const allStates = [
+  "California", "Texas", "Arizona", "Nevada", "Florida",
+  "Washington", "Oregon", "Utah", "Colorado", "New Mexico"
+];
 
 function updateRiskList() {
   const topStates = allStates
@@ -187,14 +191,6 @@ function updateRiskList() {
       risk: getRiskScore(state)
     }))
     .filter(d => d.risk >= riskThreshold)
-    .sort((a, b) => b.risk - a.risk)
-    .slice(0, 5);
-
-  const topStates = allStates
-    .map(state => ({
-      name: state,
-      risk: getRiskScore(state)
-    }))
     .sort((a, b) => b.risk - a.risk)
     .slice(0, 5);
 
