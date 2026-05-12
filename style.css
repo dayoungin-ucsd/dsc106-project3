@@ -273,3 +273,10 @@ svg {
     max-height: 650px;
     overflow-y: auto;
 }
+
+.vis-description {
+    max-width: 900px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 24px;
+}
