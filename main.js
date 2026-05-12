@@ -200,7 +200,25 @@ function updateRiskList() {
     .text(d => `${d.name} — Risk Score: ${d.risk}`);
 }
 
+function updateSpotlight() {
+  if (!selectedState) return;
+
+  const risk = getRiskScore(selectedState);
+  const temp = temperatureData[selectedState] ?? 50;
+  const veg = vegetationData[selectedState] ?? 50;
+  const thermal = thermalData[selectedState] ?? 50;
+
+  spotlightText.html(`
+    <strong>${selectedState}</strong><br>
+    Risk Score: ${risk}<br>
+    Temperature: ${temp}<br>
+    Vegetation: ${veg}<br>
+    Thermal Anomalies: ${thermal}
+  `);
+}
+
 updateRiskList();
+updateSpotlight();
 
 d3.select("#temp-weight").on("input", function () {
   tempWeight = Number(this.value);
@@ -218,6 +236,7 @@ d3.select("#temp-weight").on("input", function () {
     .attr("fill", d => getColor(d.properties.name));
 
   updateRiskList();
+  updateSpotlight();
 });
 
 d3.select("#veg-weight").on("input", function () {
@@ -236,6 +255,7 @@ d3.select("#veg-weight").on("input", function () {
     .attr("fill", d => getColor(d.properties.name));
 
   updateRiskList();
+  updateSpotlight();
 });
 
 d3.select("#risk-threshold").on("input", function () {
@@ -243,4 +263,5 @@ d3.select("#risk-threshold").on("input", function () {
   d3.select("#risk-threshold-value").text(riskThreshold);
 
   updateRiskList();
+  updateSpotlight();
 });
