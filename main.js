@@ -1,9 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 import { feature } from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
-const width = 960, height = 600;
-
-const score = riskScores[d.properties.name] ?? 50;
 const riskScores = {
   California: 92,
   Texas: 85,
@@ -16,6 +13,8 @@ const riskScores = {
   Colorado: 68,
   "New Mexico": 94
 };
+
+const width = 960, height = 600;
 
 const svg = d3.select("#vis").append("svg")
     .attr("width", width)
@@ -41,6 +40,7 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
       })
     .attr("stroke", "#fff")
     .on("mouseover", function (event, d) {
+      const score = riskScores[d.properties.name] ?? 50;
       d3.select(this).attr("fill", "#128127");
 
       tooltip.style("display", "block")
