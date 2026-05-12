@@ -42,6 +42,7 @@ const thermalData = {
 };
 
 let currentLayer = "risk";
+let selectedState = null;
 
 function getColor(stateName) {
 
@@ -105,13 +106,21 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
                Vegetation: ${veg}<br>
                Thermal Anomalies: ${thermal}
              `);
+    })
+    .on("click", function(event, d) {
+      selectedState = d.properties.name;
+
+      const risk = riskScores[selectedState] ?? 50;
+      const temp = temperatureData[selectedState] ?? 50;
+      const veg = vegetationData[selectedState] ?? 50;
+      const thermal = thermalData[selectedState] ?? 50;
 
       spotlightText.html(`
-        <strong>${d.properties.name}</strong><br>
-        Risk Score: ${risk}<br>
-        Temperature: ${temp}<br>
-        Vegetation: ${veg}<br>
-        Thermal Anomalies: ${thermal}
+          <strong>${selectedState}</strong><br>
+          Risk Score: ${risk}<br>
+          Temperature: ${temp}<br>
+          Vegetation: ${veg}<br>
+          Thermal Anomalies: ${thermal}
       `);
     })
     .on("mouseout", function(event, d) {
@@ -138,4 +147,7 @@ d3.selectAll(".controls button")
       .transition()
       .duration(400)
       .attr("fill", d => getColor(d.properties.name));
+      .attr("stroke-width", d =>
+        d.properties.name == selectedState ? 3 : 1
+      );
 });
