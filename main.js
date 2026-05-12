@@ -68,6 +68,7 @@ function getColor(stateName) {
 }
 
 const width = 960, height = 600;
+const spotlightText = d3.select("#spotlight-text");
 
 const svg = d3.select("#vis").append("svg")
     .attr("width", width)
@@ -104,6 +105,14 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
                Vegetation: ${veg}<br>
                Thermal Anomalies: ${thermal}
              `);
+
+      spotlightText.html(`
+        <strong>${d.properties.name}</strong><br>
+        Risk Score: ${risk}<br>
+        Temperature: ${temp}<br>
+        Vegetation: ${veg}<br>
+        Thermal Anomalies: ${thermal}
+      `);
     })
     .on("mouseout", function(event, d) {
       d3.select(this).attr("fill", getColor(d.properties.name));
