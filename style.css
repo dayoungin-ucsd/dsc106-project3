@@ -1,1 +1,94 @@
+:root {
+    --bg: #0b0d0f;
+    --border: #5a6371;
+    --accent: #128127;
+    --text: #d4cfc8;
+    --muted: #4c5366;
+    --heading: #f0ece4;
+}
 
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    min-height: 100vh;
+}
+
+/* Headings */
+header {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+}
+
+header small {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: 0.02em;
+    color: var(--heading);
+    margin-bottom: 20px;
+
+    /* Subtle heat-shimmer underline on the accent word */
+    background: linear-gradient(90deg, var(--heading) 60%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.authors {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.authors p {
+    font-size: 0.9rem;
+    line-height: 0.25;
+    color: var(--text);
+}
+
+.authors strong {
+    color: var(--heading);
+    font-weight: 400;
+}
+
+.authors em {
+    font-style: normal;
+    color: var(--muted);
+}
+
+/* Main */
+main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px 32px;
+}
+
+main h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--heading);
+    margin-bottom: 12px;
+}
+
+main p {
+    color: var(--text);
+    line-height: 1.7;
+}
