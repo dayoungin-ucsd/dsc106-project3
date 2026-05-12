@@ -166,3 +166,20 @@ svg {
     color: white;
     border-color: var(--accent);
 }
+
+.spotlight {
+    margin-top: 16px;
+    padding: 16px;
+    border: 16px solid var(--border);
+    border-radius: 12px;
+    background: #11161d;
+}
+
+.spotlight h3 {
+    margin-top: 0;
+    color: var(--heading);
+}
+
+#spotlight-text {
+    margin-bottom: 0;
+}
