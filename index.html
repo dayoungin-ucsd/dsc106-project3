@@ -10,9 +10,6 @@
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
-    
-    
 </head>
 
 
@@ -41,11 +38,26 @@
         </select>
     </div>
 
-
-
-    <svg id="mapSVG"></svg>
-
     <main>
+        <section class="question">
+            <h2>Research Question</h2>
+            <p>
+                How do extreme land surface temperatures and vegetation levels combine to create high-risk zones for thermal anomalies?
+            </p>
+            <p class="vis-description">
+                Explore how temperature, vegetation stress, and thermal anomalies interact across the United States. 
+                Adjust the weights and thresholds to identify regions at greater environmental risk.
+            </p>
+        </section>
+
+        <section class="visualization">
+            <h2>Interactive Visualization</h2>
+            
+            <p class="vis-description">
+                Use the year selector to compare thermal anomaly detections across different years. Darker colors indicate higher detection counts.
+            </p>
+            
+            <svg id="mapSVG"></svg>
         <section>
             <h2>Write-Up</h2>
             <p>reflection...</p>
