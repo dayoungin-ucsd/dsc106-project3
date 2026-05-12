@@ -111,8 +111,10 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
       const temp = temperatureData[d.properties.name] ?? 50;
       const veg = vegetationData[d.properties.name] ?? 50;
       const thermal = thermalData[d.properties.name] ?? 50;
+
+      svg.selectAll("path").attr("opacity", 0.4);
       
-      d3.select(this).attr("fill", "#f0ece4");
+      d3.select(this).attr("opacity", 1).attr("fill", "#f0ece4");
 
       tooltip.style("display", "block")
              .style("left", `${event.clientX + 10}px`)
@@ -148,6 +150,8 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
           d.properties.name === selectedState ? "#ffffff" : "#fff");
     })
     .on("mouseout", function(event, d) {
+      svg.selectAll("path").attr("opacity", 1);
+      
       d3.select(this).attr("fill", getColor(d.properties.name));
 
       tooltip.style("display", "none");
