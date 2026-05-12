@@ -112,7 +112,7 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
       const veg = vegetationData[d.properties.name] ?? 50;
       const thermal = thermalData[d.properties.name] ?? 50;
       
-      d3.select(this).attr("fill", "#128127");
+      d3.select(this).attr("fill", "#f0ece4");
 
       tooltip.style("display", "block")
              .style("left", `${event.clientX + 10}px`)
