@@ -317,3 +317,34 @@ svg { display: block; width: 100%; }
     color: var(--muted);
     margin-bottom: 24px;
 }
+
+#controls {
+    max-width: 1200px;
+    margin: 24px auto 0;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#controls label {
+    color: var(--heading);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+#controls select {
+    background: #11161d;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+#controls select:hover {
+    border-color: var(--accent);
+}
