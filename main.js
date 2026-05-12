@@ -5,7 +5,7 @@ const width = 960, height = 600;
 
 const svg = d3.select("#vis").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
     .attr("viewBox", `0 0 ${width} ${height}`);
 
 const path = d3.geoPath();
