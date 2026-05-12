@@ -1,4 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
+import { feature } from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
 const width = 960, height = 600;
 
