@@ -37,23 +37,30 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
         if (score > 60) return "#f77f00";
         if (score > 40) return "#fcbf49";
         return "#6a994e";
-    })
+      })
     .attr("stroke", "#fff")
     .on("mouseover", function (event, d) {
-        d3.select(this).attr("fill", "#128127");
+      d3.select(this).attr("fill", "#128127");
 
-        tooltip.style("display", "block")
-               .style("left", `${event.pageX + 10}px`)
-               .style("top", `${event.pageY + 10}px`)
-               .html(`
-                   <strong>${d.properties.name}</strong><br>
-                   Risk Score: ${riskScores[d.properties.name] ?? 50}
-                `);
+      tooltip.style("display", "block")
+             .style("left", `${event.pageX + 10}px`)
+             .style("top", `${event.pageY + 10}px`)
+             .html(`
+               <strong>${d.properties.name}</strong><br>
+               Risk Score: ${riskScores[d.properties.name] ?? 50}
+             `);
     })
-    .on("mouseout", function() {
-        d3.select(this).attr("fill", "#ccc");
+    .on("mouseout", function(event, d) {
+      const score = riskScores[d.properties.name] ?? 50;
+      
+      d3.select(this).attr("fill", () => {
+        if (score > 80) return "#c1121f";
+        if (score > 60) return "#f77f00";
+        if (score > 40) return "#fcbf49";
+        return "#6a994e";
+      });
 
-        tooltip.style("display", "none");
+      tooltip.style("display", "none");
     });
 });
 
