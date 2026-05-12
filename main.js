@@ -3,6 +3,7 @@ import { feature } from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
 const width = 960, height = 600;
 
+const score = riskScores[d.properties.name] ?? 50;
 const riskScores = {
   California: 92,
   Texas: 85,
@@ -47,7 +48,10 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
              .style("top", `${event.pageY + 10}px`)
              .html(`
                <strong>${d.properties.name}</strong><br>
-               Risk Score: ${riskScores[d.properties.name] ?? 50}
+               Risk Score: ${score}<br>
+               Temperature: High<br>
+               Vegetation: Low<br>
+               Thermal Anomalies: Elevated
              `);
     })
     .on("mouseout", function(event, d) {
