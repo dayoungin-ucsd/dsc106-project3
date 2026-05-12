@@ -114,8 +114,8 @@ d3.json("https://d3js.org/us-10m.v2.json").then(us => {
       d3.select(this).attr("fill", "#128127");
 
       tooltip.style("display", "block")
-             .style("left", `${event.pageX + 10}px`)
-             .style("top", `${event.pageY + 10}px`)
+             .style("left", `${event.clientX + 10}px`)
+             .style("top", `${event.clientY + 10}px`)
              .html(`
                <strong>${d.properties.name}</strong><br>
                Risk Score: ${risk}<br>
