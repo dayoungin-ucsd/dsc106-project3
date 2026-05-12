@@ -43,16 +43,6 @@
 
             <div class="top-controls">
                 <div class="panel-card">
-                    <h3>Data Layers</h3>
-                    <div class="controls">
-                        <button data-layer="risk" class="active">Risk Score</button>
-                        <button data-layer="temperature">Temperature</button>
-                        <button data-layer="vegetation">Vegetation</button>
-                        <button data-layer="thermal">Thermal Anomalies</button>
-                    </div>
-                </div>
-    
-                <div class="panel-card">
                     <h3>Risk Weights</h3>
                 
                     <label for="temp-weight">Temperature Weight: <span id="temp-weight-value">40%</span></label>
@@ -63,6 +53,16 @@
     
                     <label for="risk-threshold">Risk Threshold: <span id="risk-threshold-value">60</span></label>
                     <input type="range" id="risk-threshold" min="0" max="100" value="60">
+                </div>
+                
+                <div class="panel-card">
+                    <h3>Data Layers</h3>
+                    <div class="controls">
+                        <button data-layer="risk" class="active">Risk Score</button>
+                        <button data-layer="temperature">Temperature</button>
+                        <button data-layer="vegetation">Vegetation</button>
+                        <button data-layer="thermal">Thermal Anomalies</button>
+                    </div>
                 </div>
             </div>
             
