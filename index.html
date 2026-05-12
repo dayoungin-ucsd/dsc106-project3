@@ -15,7 +15,7 @@
     <header>
         <h1>
             <small>Project 3</small>
-            Degrees of Change: How Much Can<br>Our Planet Handle?
+            Degrees of Change: How Much Can Our Planet Handle?
         </h1>
 
         <div class="authors">
@@ -27,92 +27,11 @@
     </header>
 
     <main>
-        <section class="question">
-            <h2>Research Question</h2>
-            <p>
-                How do extreme land surface temperatures and vegetation levels combine to create high-risk zones for thermal anomalies?
-            </p>
-            <p class="vis-description">
-                Explore how temperature, vegetation stress, and thermal anomalies interact across the United States. 
-                Adjust the weights and thresholds to identify regions at greater environmental risk.
-            </p>
-        </section>
-        
-        <section class="visualization">
-            <h2>Interactive Visualization</h2>
-
-            <div class="top-controls">
-                <div class="panel-card">
-                    <h3>Risk Weights</h3>
-                
-                    <label for="temp-weight">Temperature Weight: <span id="temp-weight-value">40%</span></label>
-                    <input type="range" id="temp-weight" min="0" max="100" value="40">
-                
-                    <label for="veg-weight">Vegetation Weight: <span id="veg-weight-value">30%</span></label>
-                    <input type="range" id="veg-weight" min="0" max="100" value="30">
-    
-                    <label for="risk-threshold">Risk Threshold: <span id="risk-threshold-value">60</span></label>
-                    <input type="range" id="risk-threshold" min="0" max="100" value="60">
-                </div>
-                
-                <div class="panel-card">
-                    <h3>Data Layers</h3>
-                    <div class="controls">
-                        <button data-layer="risk" class="active">Risk Score</button>
-                        <button data-layer="temperature">Temperature</button>
-                        <button data-layer="vegetation">Vegetation</button>
-                        <button data-layer="thermal">Thermal Anomalies</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard">
-                <div class="map-panel">
-                    <div id="vis"></div>
-                    <div id="tooltip"></div>
-                </div>
-
-                <aside class="side-panel">
-                    <div class="panel-card">
-                        <h3>Risk Score</h3>
-                        
-                        <div class="risk-gradient"></div>
-                        
-                        <div class="risk-labels">
-                            <span>Low</span>
-                            <span>Moderate</span>
-                            <span>High</span>
-                            <span>Extreme</span>
-                        </div>
-                    </div>
-
-                    <div class="panel-card spotlight">
-                        <h3>State Spotlight</h3>
-                        <p id="spotlight-text">Click a state to keep its details here.</p>
-                    </div>
-
-                    <div class="panel-card high-risk-list">
-                        <h3>Highest Risk States</h3>
-                        <ol id="risk-list"></ol>
-                    </div>
-
-                    <div class="panel-card risk-note">
-                        <h3>How Risk Score Is Calculated</h3>
-                        <p class="formula">
-                            Risk = 40% Temperature + 30% Vegetation Stress + 30% Thermal Anomalies
-                        </p>
-                    </div>
-                </aside>
-            </div>
-        </section>
-        
         <section>
             <h2>Write-Up</h2>
             <p>reflection...</p>
         </section>
     </main>
-
-    <script type="module" src="main.js"></script>
 </body>
 
 </html>
