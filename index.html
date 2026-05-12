@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
     <header>
         <h1>
@@ -27,17 +26,6 @@
             <p><strong>Eric Zhao</strong> — <em>e3zhao@ucsd.edu</em></p>
         </div>
     </header>
-    
-    <div id="controls">
-        <label for="year-select">Select Year</label>
-        <select id="year-select" onchange="setYear(this.value)">
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
-        </select>
-    </div>
 
     <main>
         <section class="question">
@@ -56,6 +44,17 @@
             <p class="vis-description">
                 Use the year selector to compare thermal anomaly detections across different years. Darker colors indicate higher detection counts.
             </p>
+            
+            <div id="controls">
+                <label for="year-select">Select Year</label>
+                <select id="year-select" onchange="setYear(this.value)">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
             <svg id="mapSVG"></svg>
         </section>
         
