@@ -183,3 +183,21 @@ svg {
 #spotlight-text {
     margin-bottom: 0;
 }
+
+.risk-note {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #11161d;
+}
+
+.risk-note h3 {
+    margin-top: 0;
+    color: var(--heading);
+}
+
+.formula {
+    color: var(--accent);
+    font-weight: 500;
+}
