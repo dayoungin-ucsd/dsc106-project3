@@ -95,4 +95,12 @@ main p {
 #tooltip {
     position: absolute;
     display: none;
+    background: #111;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    pointer-events: none;
 }
