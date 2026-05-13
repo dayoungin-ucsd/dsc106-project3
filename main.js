@@ -30,9 +30,6 @@ function tileUrl(layer, date, z, row, col) {
 }
 
 
-
-
-
 function tile3857ToLonLat(z, row, col) {
   const numTiles = Math.pow(2, z);
   const lon = (col / numTiles) * 360 - 180;
@@ -80,13 +77,13 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json")
   });
 
 
-const zoomBehavior = d3.zoom()
-  .scaleExtent([1, 20])        // min zoom 1x, max 20x
-  .on("zoom", function(event) {
-    mapGroup.attr("transform", event.transform);
-  });
+// const zoomBehavior = d3.zoom()
+//   .scaleExtent([1, 20])        // min zoom 1x, max 20x
+//   .on("zoom", function(event) {
+//     mapGroup.attr("transform", event.transform);
+//   });
 
-svg.call(zoomBehavior);
+// svg.call(zoomBehavior);
 
 let stateFeatures = [];
 
@@ -106,11 +103,11 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
 
   
   function setYear(year) {
-    d3.json(`counts-${year}.json`).then(counts => {
+    d3.json(`/json/counts-${year}.json`).then(counts => {
       currentCounts = counts;
     // save 2020 as baseline the first time
     if (!baseline2020) {
-      d3.json("counts-2020.json").then(base => {
+      d3.json("/json/counts-2020.json").then(base => {
         baseline2020 = base;
         applyColors(counts);
         addStateInteraction(counts);
@@ -282,9 +279,10 @@ function addStateInteraction(counts) {
     tooltip.style.left    = (event.clientX + 14) + "px";
     tooltip.style.top     = (event.clientY - 10) + "px";
     tooltip.innerHTML     = `
-      <strong style="font-size:13px;">${name}</strong>
+      <strong style="font-size:13px;">${name} Thermal Anomalies</strong>
       <div style="color:#aaa; margin: 3px 0;">Detections: <strong style="color:#eee;">${count.toLocaleString()}</strong></div>
       <div style="color:#aaa;">2020 baseline: <strong style="color:#eee;">${base !== null ? base.toLocaleString() : "—"}</strong></div>
+      
       ${changeHtml}
       <div style="font-size:10px; color:#666; margin-top:6px;">Click elsewhere to dismiss</div>
     `;
@@ -299,5 +297,6 @@ svg.on("click", function(event) {
     .attr("stroke-width", 0.6);
 });
 }
+
 // load default year on startup
 setYear(2020);
