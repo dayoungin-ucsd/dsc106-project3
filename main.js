@@ -95,8 +95,8 @@ window.setYear = function(year) {
   drawTiles(currentLayer, year);
 
   Promise.all([
-    d3.json(`counts-${year}.json`),
-    d3.json(`modis_data_${year}.json`)
+    d3.json(`dsc106-project3/json/counts-${year}.json`),
+    d3.json(`dsc106-project3/json/modis_data_${year}.json`)
   ]).then(([counts, modisData]) => {
     currentCounts = counts;
 
@@ -109,8 +109,8 @@ window.setYear = function(year) {
     // If we don't have baselines yet, fetch the 2020 data and save it
     if (!baseline2020) {
       Promise.all([
-        d3.json("counts-2020.json"),
-        d3.json("modis_data_2020.json")
+        d3.json("dsc106-project3/json/counts-2020.json"),
+        d3.json("dsc106-project3/json/modis_data_2020.json")
       ]).then(([baseCounts, baseModis]) => {
         baseline2020 = baseCounts;
         
