@@ -16,19 +16,21 @@ const tileGroup   = mapGroup.append("g").attr("id", "tiles");
 const borderGroup = mapGroup.append("g").attr("id", "borders");
 const pointGroup  = mapGroup.append("g").attr("id", "points");
 
-let baseline2020  = null;
+let baseline2020 = null;
 let currentCounts = null;
-let currentLayer  = "MODIS_Terra_Thermal_Anomalies_Day";
-let currentYear   = "2020";
-let lstData       = {};   // { "06": 22.5 }  °C, keyed by zero-padded FIPS
-let ndviData      = {};   // { "06": 0.31 }  0–1, keyed by zero-padded FIPS
 
-const layerConfigs = { "MODIS_Terra_Thermal_Anomalies_Day": 7 };
-const proj = d3.geoAlbersUsa().scale(1200).translate([W / 2, H / 2]);
+const proj = d3.geoAlbersUsa()
+  .scale(1200)
+  .translate([W / 2, H / 2]);
+
+
 const GIBS = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best";
 function tileUrl(layer, date, z, row, col) {
   return `${GIBS}/${layer}/default/${date}/GoogleMapsCompatible_Level9/${z}/${row}/${col}.png`;
 }
+
+
+
 
 
 function tile3857ToLonLat(z, row, col) {
@@ -39,39 +41,29 @@ function tile3857ToLonLat(z, row, col) {
   return [lon, lat];
 }
 
-function drawTiles(layerName, year) {
-  tileGroup.selectAll("image").remove();
-  const zoom    = layerConfigs[layerName];
-  const n       = Math.pow(2, zoom);
-  const dateStr = `${year}-08-15`; // Snapshot date for the NASA background tiles
 
-  for (let row = 0; row < n; row++) {
-    for (let col = 0; col < n; col++) {
-      const [lon, lat]   = tile3857ToLonLat(zoom, row, col);
-      const [lonR, latB] = tile3857ToLonLat(zoom, row + 1, col + 1);
-      
-      if (lon < -135 || lon > -60 || lat < 20 || lat > 55) continue;
-      
-      const p1 = proj([lon, lat]);
-      const p2 = proj([lonR, latB]);
-      
-      if (!p1 || !p2) continue;
-      
-      tileGroup.append("image")
-        .attr("href", `${GIBS}/${layerName}/default/${dateStr}/GoogleMapsCompatible_Level${zoom}/${zoom}/${row}/${col}.png`)
-        .attr("x", p1[0]).attr("y", p1[1])
-        .attr("width",  Math.abs(p2[0] - p1[0]) + 1)
-        .attr("height", Math.abs(p2[1] - p1[1]) + 1)
-        .attr("opacity", 0.80)
-        .on("error", function() { d3.select(this).remove(); });
-    }
+
+
+for (let row = 0; row < numTiles; row++) {
+  for (let col = 0; col < numTiles; col++) {
+    const [lon, lat] = tile3857ToLonLat(ZOOM, row, col);
+
+    // skip tiles outside the US bounding box
+    if (lon < -130 || lon > -60 || lat < 20 || lat > 55) continue;
+
+    const pt = proj([lon, lat]);
+    if (!pt) continue;
+    const [px, py] = pt;
+
+    tileGroup.append("image")
+      .attr("href", tileUrl(layer, date, ZOOM, row, col))
+      .attr("x", px).attr("y", py)
+      .attr("width", tileW + 1).attr("height", tileH + 1)
+      .attr("opacity", 0.85)
+      .on("error", function() { d3.select(this).remove(); });
   }
 }
 
-window.setLayer = function(newLayer) {
-  currentLayer = newLayer;
-  drawTiles(currentLayer, currentYear);
-};
 
 d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json")
   .then(us => {
@@ -88,17 +80,16 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json")
   });
 
 
-// const zoomBehavior = d3.zoom()
-//   .scaleExtent([1, 20])        // min zoom 1x, max 20x
-//   .on("zoom", function(event) {
-//     mapGroup.attr("transform", event.transform);
-//   });
+const zoomBehavior = d3.zoom()
+  .scaleExtent([1, 20])        // min zoom 1x, max 20x
+  .on("zoom", function(event) {
+    mapGroup.attr("transform", event.transform);
+  });
 
-// svg.call(zoomBehavior);
+svg.call(zoomBehavior);
 
 let stateFeatures = [];
 
-// ─── Load TopoJSON (once) ─────────────────────────────────────────────────────
 d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
   stateFeatures = topojson.feature(us, us.objects.states).features;
 
@@ -115,7 +106,7 @@ d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json").then(us => {
 
   
   function setYear(year) {
-    d3.json(`/json/counts-${year}.json`).then(counts => {
+    d3.json(`counts-${year}.json`).then(counts => {
       currentCounts = counts;
     // save 2020 as baseline the first time
     if (!baseline2020) {
@@ -310,7 +301,3 @@ svg.on("click", function(event) {
 }
 // load default year on startup
 setYear(2020);
-
-// ─── Boot ─────────────────────────────────────────────────────────────────────
-drawTiles(currentLayer, "2020");
-setYear("2020");
