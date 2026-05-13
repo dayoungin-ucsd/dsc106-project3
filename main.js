@@ -96,8 +96,8 @@ window.setYear = function(year) {
 
   // Fetch both the anomaly counts and the pre-processed MODIS averages concurrently
   Promise.all([
-    d3.json(`./json/counts-${year}.json`),
-    d3.json(`./json/modis_data_${year}.json`)
+    d3.json(`json/counts-${year}.json`),
+    d3.json(`json/modis_data_${year}.json`)
   ]).then(([counts, modisData]) => {
     currentCounts = counts;
 
@@ -108,7 +108,7 @@ window.setYear = function(year) {
     }
 
     if (!baseline2020) {
-      d3.json("./json/counts-2020.json").then(base => {
+      d3.json("json/counts-2020.json").then(base => {
         baseline2020 = base;
         applyColors(counts);
         addStateInteraction(counts);
