@@ -10,6 +10,68 @@
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+      /* ── Tooltip ─────────────────────────────────────────────────────── */
+      #tooltip {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        pointer-events: none;
+        background: rgba(10, 12, 18, 0.92);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 10px;
+        padding: 12px 14px;
+        width: 220px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        color: #ccc;
+        line-height: 1.5;
+      }
+
+      .tt-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #f0f0f0;
+        margin-bottom: 6px;
+        letter-spacing: 0.3px;
+      }
+
+      .tt-divider {
+        height: 1px;
+        background: rgba(255,255,255,0.10);
+        margin: 7px 0;
+      }
+
+      .tt-section-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: #666;
+        margin-bottom: 2px;
+      }
+
+      .tt-row {
+        margin-bottom: 2px;
+      }
+
+      .tt-value {
+        font-weight: 600;
+        color: #f0f0f0;
+        font-size: 14px;
+      }
+
+      .tt-muted {
+        color: #666;
+        font-size: 11px;
+      }
+
+      .tt-muted strong {
+        color: #999;
+      }
+    </style>
 </head>
 
 <body>
@@ -41,10 +103,14 @@
         <section class="visualization">
             <h2>Interactive Visualization</h2>
             <p class="vis-description">
-                Use the year selector to compare thermal anomaly detections across different years. Darker colors represent higher detection counts.
+                Use the year selector to compare thermal anomaly detections across different years. Darker colors represent higher detection counts. Hover over any state to see its thermal anomaly count, annual average land surface temperature, and vegetation index.
             </p>
             
             <div id="controls">
+                <label for="layer-select">Map Layer</label>
+                <select id="layer-select" onchange="setLayer(this.value)">
+                    <option value="MODIS_Terra_Thermal_Anomalies_Day">Thermal Anomalies</option>
+                </select>
                 <label for="year-select">Select Year</label>
                 <select id="year-select" onchange="setYear(this.value)">
                     <option value="2020">2020</option>
@@ -63,14 +129,10 @@
         </section>
     </main>
 
-    <div id = 'tooltip'></div>
-
-
+    <div id="tooltip"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-    <script src = 'main.js'></script>
+    <script src="main.js"></script>
 </body>
-
-
 </html>
