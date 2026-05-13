@@ -1,4 +1,3 @@
-// ─── Canvas & groups ──────────────────────────────────────────────────────────
 const W = 960, H = 620;
 
 const svg = d3.select("#mapSVG")
@@ -11,7 +10,6 @@ const tileGroup   = mapGroup.append("g").attr("id", "tiles");
 const borderGroup = mapGroup.append("g").attr("id", "borders");
 const pointGroup  = mapGroup.append("g").attr("id", "points");
 
-// ─── State variables ──────────────────────────────────────────────────────────
 let baseline2020  = null;
 let currentCounts = null;
 let currentLayer  = "MODIS_Terra_Thermal_Anomalies_Day";
