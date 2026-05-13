@@ -16,6 +16,8 @@ let currentLayer  = "MODIS_Terra_Thermal_Anomalies_Day";
 let currentYear   = "2020";
 let lstData       = {};   // { "06": 22.5 }  °C, keyed by zero-padded FIPS
 let ndviData      = {};   // { "06": 0.31 }  0–1, keyed by zero-padded FIPS
+let baselineLst   = null; // this will be for our baseline temp and NDVI 
+let baselineNdvi  = null;
 
 // ─── Layer config & NASA GIBS ─────────────────────────────────────────────────
 const layerConfigs = { "MODIS_Terra_Thermal_Anomalies_Day": 7 };
@@ -92,22 +94,34 @@ window.setYear = function(year) {
 
   drawTiles(currentLayer, year);
 
-  // Fetch both the anomaly counts and the pre-processed MODIS averages concurrently
   Promise.all([
-    d3.json(`/dsc106-project3/json/counts-${year}.json`),
-    d3.json(`/dsc106-project3/json/modis_data_${year}.json`)
+    d3.json(`counts-${year}.json`),
+    d3.json(`modis_data_${year}.json`)
   ]).then(([counts, modisData]) => {
     currentCounts = counts;
 
-    // Map the new JSON structure into our global tooltip variables
+    // Map current year data
     for (const fips in modisData) {
         lstData[fips] = modisData[fips].avg_lst_celsius;
         ndviData[fips] = modisData[fips].avg_ndvi;
     }
 
+    // If we don't have baselines yet, fetch the 2020 data and save it
     if (!baseline2020) {
-      d3.json("/dsc106-project3/json/counts-2020.json").then(base => {
-        baseline2020 = base;
+      Promise.all([
+        d3.json("counts-2020.json"),
+        d3.json("modis_data_2020.json")
+      ]).then(([baseCounts, baseModis]) => {
+        baseline2020 = baseCounts;
+        
+        // Save the MODIS baselines
+        baselineLst = {};
+        baselineNdvi = {};
+        for (const fips in baseModis) {
+            baselineLst[fips] = baseModis[fips].avg_lst_celsius;
+            baselineNdvi[fips] = baseModis[fips].avg_ndvi;
+        }
+
         applyColors(counts);
         addStateInteraction(counts);
       });
@@ -236,22 +250,45 @@ function addStateInteraction(counts) {
       const fips  = String(d.id).padStart(2, "0");
       const name  = STATE_NAMES[fips] || "Unknown";
       const count = counts[d.id] || 0;
-      const base  = baseline2020 ? (baseline2020[d.id] || 0) : null;
-      const lst   = lstData[fips]  ?? null;
-      const ndvi  = ndviData[fips] ?? null;
+      
+      const baseCount = baseline2020 ? (baseline2020[d.id] || 0) : null;
+      const lst       = lstData[fips]  ?? null;
+      const ndvi      = ndviData[fips] ?? null;
+      
+      const baseLst   = baselineLst ? (baselineLst[fips] ?? null) : null;
+      const baseNdvi  = baselineNdvi ? (baselineNdvi[fips] ?? null) : null;
 
+      // 1. Calculate Anomalies Change
       let changeHtml = "";
       if (baseline2020) {
-        if (base === 0 && count === 0) {
+        if (baseCount === 0 && count === 0) {
           changeHtml = `<div class="tt-row" style="color:#555;">No detections in 2020 or selected year</div>`;
-        } else if (base === 0) {
+        } else if (baseCount === 0) {
           changeHtml = `<div class="tt-row" style="color:#ff6b6b;">⚑ New activity (no 2020 baseline)</div>`;
         } else {
-          const pct   = ((count - base) / base * 100).toFixed(1);
+          const pct   = ((count - baseCount) / baseCount * 100).toFixed(1);
           const color = +pct > 0 ? "#ff6b6b" : "#69db7c";
           const arrow = +pct > 0 ? "▲" : "▼";
-          changeHtml  = `<div class="tt-row" style="color:${color};">${arrow} ${Math.abs(pct)}% vs 2020 baseline</div>`;
+          changeHtml  = `<div class="tt-row" style="color:${color};">${arrow} ${Math.abs(pct)}% vs 2020</div>`;
         }
+      }
+
+      // 2. Calculate LST Absolute Delta (Standard for Temp)
+      let lstChangeHtml = "";
+      if (baseLst !== null && lst !== null) {
+          const lstDelta = (lst - baseLst).toFixed(2);
+          const color = +lstDelta > 0 ? "#ff6b6b" : "#69db7c"; // Red if hotter, green if cooler
+          const sign = +lstDelta > 0 ? "+" : "";
+          lstChangeHtml = `<span style="color:${color}; font-size: 0.9em; margin-left: 8px;">(${sign}${lstDelta} °C vs 2020)</span>`;
+      }
+
+      // 3. Calculate NDVI Percentage Change
+      let ndviChangeHtml = "";
+      if (baseNdvi !== null && ndvi !== null && baseNdvi !== 0) {
+          const ndviPct = (((ndvi - baseNdvi) / baseNdvi) * 100).toFixed(1);
+          const color = +ndviPct < 0 ? "#ff6b6b" : "#69db7c"; // Red if vegetation lost, green if gained
+          const arrow = +ndviPct > 0 ? "▲" : "▼";
+          ndviChangeHtml = `<span style="color:${color}; font-size: 0.9em; margin-left: 8px;">(${arrow} ${Math.abs(ndviPct)}% vs 2020)</span>`;
       }
 
       const lstInfo  = lstDisplay(lst);
@@ -266,18 +303,19 @@ function addStateInteraction(counts) {
         <div class="tt-row">
           <span class="tt-value">${count.toLocaleString()}</span> detections
         </div>
-        <div class="tt-row tt-muted">
-          2020 baseline: <strong>${base !== null ? base.toLocaleString() : "—"}</strong>
-        </div>
         ${changeHtml}
 
         <div class="tt-divider"></div>
-        <div class="tt-section-label">Land Surface Temp · Annual Avg <span style="color:#444;">(MODIS MOD11A2)</span></div>
-        <div class="tt-row" style="color:${lstInfo.color};">● ${lstInfo.text}</div>
+        <div class="tt-section-label">Land Surface Temp (Annual Avg)</div>
+        <div class="tt-row" style="color:${lstInfo.color};">
+            ● ${lstInfo.text} ${lstChangeHtml}
+        </div>
 
         <div class="tt-divider"></div>
-        <div class="tt-section-label">Vegetation Index · Annual Avg <span style="color:#444;">(MODIS MOD13Q1)</span></div>
-        <div class="tt-row" style="color:${ndviInfo.color};">● ${ndviInfo.text}</div>
+        <div class="tt-section-label">Vegetation Index (Annual Avg)</div>
+        <div class="tt-row" style="color:${ndviInfo.color};">
+            ● ${ndviInfo.text} ${ndviChangeHtml}
+        </div>
       `;
 
       const pos = tooltipPos(event);
