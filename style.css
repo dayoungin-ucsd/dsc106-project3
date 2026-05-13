@@ -135,6 +135,7 @@ main p {
 }
 
 svg {
+    display: blcok;
     width: 100%;
     height: auto;
 }
@@ -301,9 +302,9 @@ svg {
     display: block;
 }
 
-svg { display: block; width: 100;}
+/* svg { display: block; width: 100;}
 
-/* #mapSVG {
+#mapSVG {
   cursor: grab;
 }
 
