@@ -301,15 +301,6 @@ svg {
     display: block;
 }
 
-svg { display: block; width: 100;}
-
-/* #mapSVG {
-  cursor: grab;
-}
-
-#mapSVG:active {
-  cursor: grabbing;
-} */
 
 #tooltip {
         display: none;
@@ -347,7 +338,7 @@ svg { display: block; width: 100;}
         font-size: 10px;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        color: #666;
+        color: #bbb8b8;
         margin-bottom: 2px;
       }
 
