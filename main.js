@@ -21,7 +21,6 @@ const layerConfigs = { "MODIS_Terra_Thermal_Anomalies_Day": 7 };
 const proj = d3.geoAlbersUsa().scale(1200).translate([W / 2, H / 2]);
 const GIBS = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best";
 
-// ─── Tile drawing ─────────────────────────────────────────────────────────────
 function tile3857ToLonLat(z, row, col) {
   const n   = Math.pow(2, z);
   const lon = (col / n) * 360 - 180;
