@@ -366,3 +366,26 @@ svg {
     margin: 1em;
     
 }
+
+h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--heading);
+    margin-top: 28px;
+    margin-bottom: 16px;
+}
+
+ul {
+    padding-left: 24px;
+    max-width: 1000px;
+}
+
+ul li {
+    margin-bottom: 16px;
+    line-height: 1.7;
+    color: var(--text);
+}
+
+ul li strong {
+    color: var(--heading);
+}
