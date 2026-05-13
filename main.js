@@ -1,4 +1,3 @@
-// ─── Canvas & groups ──────────────────────────────────────────────────────────
 const W = 960, H = 620;
 
 const svg = d3.select("#mapSVG")
@@ -11,7 +10,6 @@ const tileGroup   = mapGroup.append("g").attr("id", "tiles");
 const borderGroup = mapGroup.append("g").attr("id", "borders");
 const pointGroup  = mapGroup.append("g").attr("id", "points");
 
-// ─── State variables ──────────────────────────────────────────────────────────
 let baseline2020  = null;
 let currentCounts = null;
 let currentLayer  = "MODIS_Terra_Thermal_Anomalies_Day";
@@ -19,7 +17,6 @@ let currentYear   = "2020";
 let lstData       = {};   // { "06": 22.5 }  °C, keyed by zero-padded FIPS
 let ndviData      = {};   // { "06": 0.31 }  0–1, keyed by zero-padded FIPS
 
-// ─── Layer config & NASA GIBS ─────────────────────────────────────────────────
 const layerConfigs = { "MODIS_Terra_Thermal_Anomalies_Day": 7 };
 const proj = d3.geoAlbersUsa().scale(1200).translate([W / 2, H / 2]);
 const GIBS = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best";
