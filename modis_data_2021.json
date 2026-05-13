@@ -1,0 +1,206 @@
+{
+  "01": {
+    "avg_lst_celsius": 22.07,
+    "avg_ndvi": 0.6697
+  },
+  "05": {
+    "avg_lst_celsius": 19.19,
+    "avg_ndvi": 0.6521
+  },
+  "02": {
+    "avg_lst_celsius": -12.44,
+    "avg_ndvi": -0.0463
+  },
+  "08": {
+    "avg_lst_celsius": 16.91,
+    "avg_ndvi": 0.4072
+  },
+  "10": {
+    "avg_lst_celsius": 18.38,
+    "avg_ndvi": 0.6467
+  },
+  "11": {
+    "avg_lst_celsius": 22.28,
+    "avg_ndvi": 0.1379
+  },
+  "04": {
+    "avg_lst_celsius": 31.44,
+    "avg_ndvi": 0.2748
+  },
+  "06": {
+    "avg_lst_celsius": 32.11,
+    "avg_ndvi": 0.3988
+  },
+  "12": {
+    "avg_lst_celsius": 29.57,
+    "avg_ndvi": 0.6313
+  },
+  "13": {
+    "avg_lst_celsius": 21.26,
+    "avg_ndvi": 0.69
+  },
+  "15": {
+    "avg_lst_celsius": null,
+    "avg_ndvi": null
+  },
+  "09": {
+    "avg_lst_celsius": 17.79,
+    "avg_ndvi": 0.511
+  },
+  "16": {
+    "avg_lst_celsius": 14.54,
+    "avg_ndvi": 0.2245
+  },
+  "20": {
+    "avg_lst_celsius": 22.63,
+    "avg_ndvi": 0.4738
+  },
+  "22": {
+    "avg_lst_celsius": 22.55,
+    "avg_ndvi": 0.7385
+  },
+  "24": {
+    "avg_lst_celsius": 18.61,
+    "avg_ndvi": 0.7016
+  },
+  "18": {
+    "avg_lst_celsius": 20.58,
+    "avg_ndvi": 0.4935
+  },
+  "21": {
+    "avg_lst_celsius": 19.7,
+    "avg_ndvi": 0.7008
+  },
+  "19": {
+    "avg_lst_celsius": 17.96,
+    "avg_ndvi": 0.4334
+  },
+  "17": {
+    "avg_lst_celsius": 17.4,
+    "avg_ndvi": 0.5204
+  },
+  "25": {
+    "avg_lst_celsius": 15.38,
+    "avg_ndvi": 0.5994
+  },
+  "26": {
+    "avg_lst_celsius": 15.85,
+    "avg_ndvi": 0.4395
+  },
+  "27": {
+    "avg_lst_celsius": 13.76,
+    "avg_ndvi": 0.5059
+  },
+  "23": {
+    "avg_lst_celsius": 11.02,
+    "avg_ndvi": 0.5927
+  },
+  "28": {
+    "avg_lst_celsius": 21.29,
+    "avg_ndvi": 0.7559
+  },
+  "29": {
+    "avg_lst_celsius": 19.35,
+    "avg_ndvi": 0.656
+  },
+  "32": {
+    "avg_lst_celsius": 28.5,
+    "avg_ndvi": 0.0903
+  },
+  "33": {
+    "avg_lst_celsius": 15.28,
+    "avg_ndvi": 0.4122
+  },
+  "34": {
+    "avg_lst_celsius": 18.85,
+    "avg_ndvi": 0.568
+  },
+  "35": {
+    "avg_lst_celsius": 25.52,
+    "avg_ndvi": 0.3488
+  },
+  "36": {
+    "avg_lst_celsius": 14.22,
+    "avg_ndvi": 0.5475
+  },
+  "37": {
+    "avg_lst_celsius": 20.46,
+    "avg_ndvi": 0.7237
+  },
+  "39": {
+    "avg_lst_celsius": 16.68,
+    "avg_ndvi": 0.6268
+  },
+  "38": {
+    "avg_lst_celsius": 19.49,
+    "avg_ndvi": 0.2746
+  },
+  "40": {
+    "avg_lst_celsius": 22.89,
+    "avg_ndvi": 0.5597
+  },
+  "41": {
+    "avg_lst_celsius": 11.23,
+    "avg_ndvi": 0.7144
+  },
+  "42": {
+    "avg_lst_celsius": 16.81,
+    "avg_ndvi": 0.6446
+  },
+  "44": {
+    "avg_lst_celsius": 18.15,
+    "avg_ndvi": 0.5967
+  },
+  "31": {
+    "avg_lst_celsius": 20.75,
+    "avg_ndvi": 0.4143
+  },
+  "30": {
+    "avg_lst_celsius": 10.78,
+    "avg_ndvi": 0.4982
+  },
+  "45": {
+    "avg_lst_celsius": 20.86,
+    "avg_ndvi": 0.7273
+  },
+  "46": {
+    "avg_lst_celsius": 21.36,
+    "avg_ndvi": 0.3975
+  },
+  "47": {
+    "avg_lst_celsius": 20.73,
+    "avg_ndvi": 0.6641
+  },
+  "48": {
+    "avg_lst_celsius": 25.68,
+    "avg_ndvi": 0.5194
+  },
+  "50": {
+    "avg_lst_celsius": 10.61,
+    "avg_ndvi": 0.5562
+  },
+  "49": {
+    "avg_lst_celsius": 13.21,
+    "avg_ndvi": null
+  },
+  "51": {
+    "avg_lst_celsius": 19.69,
+    "avg_ndvi": 0.6652
+  },
+  "53": {
+    "avg_lst_celsius": 11.52,
+    "avg_ndvi": 0.7106
+  },
+  "54": {
+    "avg_lst_celsius": 18.15,
+    "avg_ndvi": 0.7059
+  },
+  "55": {
+    "avg_lst_celsius": 16.94,
+    "avg_ndvi": 0.4338
+  },
+  "56": {
+    "avg_lst_celsius": 13.91,
+    "avg_ndvi": 0.2378
+  }
+}
