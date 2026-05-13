@@ -4,7 +4,7 @@ const W = 960, H = 620;
 const svg = d3.select("#mapSVG")
   .attr("viewBox", `0 0 ${W} ${H}`)
   .style("width", "100%")
-  .style("height", "620px");
+  .style("height", "600px");
 
 const mapGroup    = svg.append("g").attr("id", "mapGroup");
 const tileGroup   = mapGroup.append("g").attr("id", "tiles");
@@ -96,8 +96,8 @@ window.setYear = function(year) {
 
   // Fetch both the anomaly counts and the pre-processed MODIS averages concurrently
   Promise.all([
-    d3.json(`counts-${year}.json`),
-    d3.json(`modis_data_${year}.json`)
+    d3.json(`/json/counts-${year}.json`),
+    d3.json(`/json/modis_data_${year}.json`)
   ]).then(([counts, modisData]) => {
     currentCounts = counts;
 
@@ -108,7 +108,7 @@ window.setYear = function(year) {
     }
 
     if (!baseline2020) {
-      d3.json("counts-2020.json").then(base => {
+      d3.json("/json/counts-2020.json").then(base => {
         baseline2020 = base;
         applyColors(counts);
         addStateInteraction(counts);
